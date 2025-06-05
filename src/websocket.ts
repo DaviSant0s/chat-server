@@ -46,6 +46,15 @@ io.on('connection', (socket) => {
       });
     }
 
+    // verifica se a sala é nova
+    const roomAlreadyExisted =
+      io.sockets.adapter.rooms.has(data.room) &&
+      Array.from(io.sockets.adapter.rooms.get(data.room)!).length === 1;
+
+    if (roomAlreadyExisted) {
+      io.emit('rooms_updated');
+    }
+
     const messagesRoom = getMessagesRoom(data.room);
     callback(messagesRoom);
   });
@@ -63,6 +72,14 @@ io.on('connection', (socket) => {
 
     // Enviar para usuários da sala
     io.to(data.room).emit('message', message);
+  });
+
+  socket.on('get_rooms', (callback) => {
+    const rooms = Array.from(io.sockets.adapter.rooms.entries())
+      .filter(([roomName]) => !io.sockets.sockets.has(roomName)) // Remove salas privadas (que são sockets)
+      .map(([roomName]) => roomName); // Pega só o nome da sala
+
+    callback(rooms);
   });
 });
 
