@@ -30,6 +30,8 @@ io.on('connection', (socket) => {
     // Adiciona o socket (cliente) à sala especificada, permitindo que ele receba mensagens enviadas apenas para essa sala
     socket.join(data.room);
 
+    console.log(users)
+
     // verificar se o usuário já está na sala
     const userInRoom = users.find(
       (user) => user.username === data.username && user.room === data.room
@@ -59,6 +61,11 @@ io.on('connection', (socket) => {
     callback(messagesRoom);
   });
 
+  // Retorna todas as mensagens para o front
+  socket.on('get_messages', (callback) => {
+    callback(messages)
+  })
+
   socket.on('message', (data) => {
     // Salvar as mensagens
     const message: Message = {
@@ -69,6 +76,9 @@ io.on('connection', (socket) => {
     };
 
     messages.push(message);
+
+    // atualiza as mensagens no front
+    io.emit('messages_updated');
 
     // Enviar para usuários da sala
     io.to(data.room).emit('message', message);
