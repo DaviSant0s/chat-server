@@ -26,7 +26,7 @@ const messages: Message[] = [];
 
 io.on('connection', (socket) => {
   // vai ficar escutando o evento gerado pelo cliente
-  socket.on('select_room', (data, callback) => {
+  socket.on('select_room', (data) => {
     // Adiciona o socket (cliente) à sala especificada, permitindo que ele receba mensagens enviadas apenas para essa sala
     socket.join(data.room);
 
@@ -57,8 +57,8 @@ io.on('connection', (socket) => {
       io.emit('rooms_updated');
     }
 
-    const messagesRoom = getMessagesRoom(data.room);
-    callback(messagesRoom);
+    //const messagesRoom = getMessagesRoom(data.room);
+    //callback(messagesRoom);
   });
 
   // Retorna todas as mensagens para o front
