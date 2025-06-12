@@ -9,7 +9,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: ['http://localhost:5173', 'https://chat-web-eta-three.vercel.app/'],
+    origin: ['http://localhost:5173', 'https://chat-web-eta-three.vercel.app'],
     methods: ['GET', 'POST'],
   })
 );
@@ -20,7 +20,7 @@ const port = 3000;
 
 const io = new Server(serverHttp, {
   cors: {
-    origin: ['http://localhost:5173', 'https://chat-web-eta-three.vercel.app/'],
+    origin: ['http://localhost:5173', 'https://chat-web-eta-three.vercel.app'],
     methods: ['GET', 'POST'],
   },
 });
