@@ -9,8 +9,6 @@ const app = express();
 
 app.use(cors());
 
-app.use(express.static(path.join(__dirname, '..', 'public')));
-
 const serverHttp = http.createServer(app);
 
 const port = 3000;
