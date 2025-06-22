@@ -1,13 +1,5 @@
 import { io } from './http';
 
-// Isso vai gerar uma conexão entre o cliente e servidor quando o cliente for se conectar com a aplicação
-// O socket vai ser a representação do cliente dentro do servidor
-// Toda vez que um cliente se conecta com a nossa aplicação, é gerada um socket pra ele
-
-// Quando queremos fazer algo mais relacionado ao cliente utilizamos o 'socket' ao invés do 'io'
-// O socket é algo único, algo direcionado pelo cliente.
-// Quando eu quiser fazer algo para a aplicação toda eu utilizo o 'io'
-
 interface RoomUser {
   socket_id: string;
   username: string;
@@ -28,6 +20,9 @@ const rooms: Set<string> = new Set();
 io.on('connection', (socket) => {
   // vai ficar escutando o evento gerado pelo cliente
   socket.on('select_room', (data, callback) => {
+
+    console.log(`[Servidor] ${data.username} entrou na sala ${data.room}`);
+
     socket.join(data.room);
 
     // verificar se o usuário já está na sala
